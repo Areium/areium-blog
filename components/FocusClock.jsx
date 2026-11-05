@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function FocusClock() {
   const [minutes, setMinutes] = useState('25');
@@ -8,6 +8,19 @@ export default function FocusClock() {
   const [remaining, setRemaining] = useState(25 * 60 * 1000);
   const [deadline, setDeadline] = useState(null);
   const [message, setMessage] = useState('');
+  const completionAlertShown = useRef(false);
+  const completed = remaining === 0;
+
+  useEffect(() => {
+    if (!completed) {
+      completionAlertShown.current = false;
+      return;
+    }
+    if (!completionAlertShown.current) {
+      completionAlertShown.current = true;
+      window.alert('专注时间到！这一轮已经完成，休息一下吧。');
+    }
+  }, [completed]);
 
   useEffect(() => {
     if (deadline === null) return;

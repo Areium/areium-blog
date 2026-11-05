@@ -13,10 +13,15 @@ const { code } = transformSync(fs.readFileSync('components/FocusClock.jsx', 'utf
 });
 
 function clock() {
-  const state = [], effects = [], intervals = new Map(), listeners = new Map();
+  const state = [], effects = [], intervals = new Map(), listeners = new Map(), alerts = [];
   let cursor = 0, now = 1000, nextTimer = 0, tree;
   const pending = [];
   const react = {
+    useRef(initial) {
+      const index = cursor++;
+      if (!(index in state)) state[index] = { current: initial };
+      return state[index];
+    },
     useState(initial) {
       const index = cursor++;
       if (!(index in state)) state[index] = initial;
@@ -42,7 +47,7 @@ function clock() {
     Date: class extends Date { static now() { return now; } },
     setInterval: callback => { intervals.set(++nextTimer, callback); return nextTimer; },
     clearInterval: id => intervals.delete(id),
-    document: events, window: events,
+    document: events, window: { ...events, alert: message => alerts.push(message) },
   });
   function render() {
     cursor = 0;
@@ -68,6 +73,7 @@ function clock() {
     advance(ms, event) { now += ms; if (event) listeners.get(event)?.(); else for (const callback of [...intervals.values()]) callback(); render(); },
     elapse(ms) { now += ms; },
     intervals,
+    alerts,
   };
 }
 
@@ -84,6 +90,7 @@ test('custom duration, precise pause, resume, completion, restart and reset work
   assert.equal(timer.intervals.size, 0);
   timer.advance(60000);
   assert.equal(timer.display(), '00:04');
+  assert.equal(timer.alerts.length, 0);
   timer.click('继续专注');
   timer.advance(3899);
   assert.equal(timer.display(), '00:01');
@@ -91,11 +98,20 @@ test('custom duration, precise pause, resume, completion, restart and reset work
   assert.equal(timer.display(), '00:00');
   assert.match(timer.status(), /专注完成/);
   assert.equal(timer.intervals.size, 0);
+  assert.equal(timer.alerts.length, 1);
+  assert.match(timer.alerts[0], /专注时间到/);
+  timer.advance(1000, 'pageshow');
+  assert.equal(timer.alerts.length, 1);
   timer.click('再来一次');
   assert.equal(timer.display(), '00:05');
   timer.click('重置');
   assert.equal(timer.display(), '00:05');
   assert.equal(timer.intervals.size, 0);
+  timer.advance(60000);
+  assert.equal(timer.alerts.length, 1);
+  timer.click('开始专注');
+  timer.advance(5000);
+  assert.equal(timer.alerts.length, 2);
 });
 
 test('duration validation, presets and resuming from a background tab', () => {
@@ -118,4 +134,5 @@ test('duration validation, presets and resuming from a background tab', () => {
   timer.advance(301000, 'visibilitychange');
   assert.equal(timer.display(), '00:00');
   assert.equal(timer.intervals.size, 0);
+  assert.equal(timer.alerts.length, 1);
 });
