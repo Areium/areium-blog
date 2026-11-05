@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import sharp from 'sharp';
-import { characterPoints, headBounds, heroPointToScreen } from '../lib/ascii-character.js';
+import { characterPoints, headBounds } from '../lib/ascii-character.js';
 
 test('head hit area follows cover scaling on desktop and mobile', () => {
   for (const [width, height] of [[1104, 570], [350, 149]]) {
@@ -11,9 +11,6 @@ test('head hit area follows cover scaling on desktop and mobile', () => {
     const headY = 450 * scale;
     assert.ok(headX > bounds.left && headX < bounds.left + bounds.width);
     assert.ok(headY > bounds.top && headY < bounds.top + bounds.height);
-    const screen = heroPointToScreen((1830 / 3360 - .48) * 14, (.50 - 450 / 1440) * 6, { left: 30, top: 90, width, height });
-    assert.ok(Math.abs(screen.x - headX - 30) < .001);
-    assert.ok(Math.abs(screen.y - headY - 90) < .001);
   }
 });
 
@@ -29,6 +26,15 @@ test('facial features use four times the linear sampling density of wings', asyn
     if (positions[index + 1] > 1.8 && colors[index] === 1 && Math.abs(colors[index + 1] - .84) < .001) halo++;
   }
   assert.ok(halo > 100, 'The gold halo and horns must extend above the head');
+  for (const [eyeX, eyeY] of [[1798, 484], [1865, 446]]) {
+    let gold = 0;
+    for (let index = 0; index < positions.length; index += 3) {
+      const x = (positions[index] / 14 + .48) * 3360;
+      const y = (.50 - positions[index + 1] / 6) * 1440;
+      if (Math.hypot(x - eyeX, y - eyeY) < 14 && colors[index] === 1 && Math.abs(colors[index + 1] - .72) < .001) gold++;
+    }
+    assert.ok(gold > 30, 'Each iris should retain a dense cluster of gold characters');
+  }
 });
 
 test('ASCII points use the real hero and retain the character face and wings', async () => {

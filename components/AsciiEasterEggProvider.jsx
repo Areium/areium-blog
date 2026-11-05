@@ -6,22 +6,21 @@ const AsciiContext = createContext(null);
 export function useAsciiEasterEgg() { return useContext(AsciiContext); }
 
 export default function AsciiEasterEggProvider({ children }) {
-  const [sourceRect, setSourceRect] = useState(null);
+  const [active, setActive] = useState(false);
   const [message, setMessage] = useState('');
   const background = useRef(null);
-  const active = sourceRect !== null;
 
   useEffect(() => {
     if (!active) return;
     const controller = new AbortController();
     let dispose;
-    const close = event => { if (event.key === 'Escape') setSourceRect(null); };
+    const close = event => { if (event.key === 'Escape') setActive(false); };
     window.addEventListener('keydown', close);
     import('../lib/ascii-scene').then(({ createAsciiScene }) =>
       createAsciiScene(background.current, controller.signal, () => {
-        setSourceRect(null);
+        setActive(false);
         setMessage('3D 场景已暂停，可以返回首页再次点击角色头部重试。');
-      }, () => sourceRect)
+      })
     ).then(cleanup => {
       if (controller.signal.aborted) cleanup();
       else {
@@ -30,7 +29,7 @@ export default function AsciiEasterEggProvider({ children }) {
       }
     }).catch(() => {
       if (!controller.signal.aborted) {
-        setSourceRect(null);
+        setActive(false);
         setMessage('当前浏览器暂时无法启用 3D 彩蛋。');
       }
     });
@@ -40,13 +39,11 @@ export default function AsciiEasterEggProvider({ children }) {
       window.removeEventListener('keydown', close);
       delete document.documentElement.dataset.asciiEgg;
     };
-  }, [active, sourceRect]);
+  }, [active]);
 
-  function toggle(rect) {
+  function toggle() {
     setMessage('');
-    setSourceRect(current => current ? null : {
-      left: rect.left, top: rect.top, width: rect.width, height: rect.height,
-    });
+    setActive(current => !current);
   }
 
   return <AsciiContext.Provider value={{ active, toggle }}>
