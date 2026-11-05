@@ -1,7 +1,7 @@
 [
   {
     "slug": "vllm-dynamic-classroom",
-    "title": "一个请求，一步步变成 token：vLLM 动态课堂",
+    "title": "从零开始学习vllm",
     "description": "七张递进框架图，跟随请求走过调度、执行、KV Cache 与 PD 分离。点击、单步和自动播放，把数据通路真正串起来。",
     "category": "推理引擎",
     "tags": [
