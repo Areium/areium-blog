@@ -10,3 +10,16 @@ html[data-theme=dark] .nav-note{color:#9fb8da}html[data-theme=dark] .green-dot{b
 @media(max-width:370px){.brand small{display:none}.nav nav{gap:11px}.brand-mark{display:none}.hero-bottom{gap:10px}}
 
 .html-report-placeholder{background:var(--bg);color:var(--muted);padding:24px 0;font-size:14px}
+
+.comment-tools { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+.comment-tools button, .comment-preview button { display: inline-flex; align-items: center; gap: 7px; padding: 8px 12px; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; }
+.comment-tools .muted { flex-basis: 100%; }
+.comment-emojis { display: flex; flex-wrap: wrap; gap: 4px; max-width: 400px; padding: 8px; margin-bottom: 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
+.comment-emojis button { width: 42px; height: 42px; border: 0; border-radius: 5px; background: transparent; font-size: 24px; }
+.comment-emojis button:hover, .comment-emojis button:focus-visible { background: var(--tag-bg); }
+.comment-preview { display: flex; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+.comment-preview img { width: 160px; height: 120px; object-fit: contain; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
+.comment-preview span { flex-basis: 100%; font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+.comment-image-link { display: block; width: fit-content; max-width: 100%; margin-top: 14px; }
+.comment-image-link img { display: block; max-width: 100%; width: auto; max-height: 360px; object-fit: contain; border-radius: 8px; border: 1px solid var(--line); }
+.comments button:disabled { opacity: .55; cursor: not-allowed; }
