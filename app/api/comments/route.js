@@ -37,7 +37,8 @@ export async function POST(request) {
     let file;
     if (multipart) {
       const form = await new Response(buffer, { headers: { 'Content-Type': request.headers.get('content-type') } }).formData();
-      data = { slug: form.get('slug'), body: form.get('body') ?? '' };
+      const reply = form.get('reply_to_id');
+      data = { slug: form.get('slug'), body: form.get('body') ?? '', reply_to_id: reply === null ? null : (/^[1-9][0-9]*$/.test(String(reply)) ? Number(reply) : NaN) };
       const images = form.getAll('image');
       if (images.length > 1) return NextResponse.json({ error: '每条评论最多上传一张图片。' }, { status: 400 });
       file = images[0];
@@ -56,7 +57,7 @@ export async function POST(request) {
         return NextResponse.json({ error: error.message }, { status: 400 });
       }
     }
-    const result = addComment(data.slug, user, data.body, image);
+    const result = addComment(data.slug, user, data.body, image, data.reply_to_id ?? null);
     return NextResponse.json(result, { status: result.status || 201 });
   } catch {
     return NextResponse.json({ error: '提交失败，请检查内容后重试。' }, { status: 400 });

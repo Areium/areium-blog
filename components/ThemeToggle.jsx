@@ -24,5 +24,5 @@ export default function ThemeToggle() {
     document.documentElement.dataset.theme = next;
     try { localStorage.setItem('areium-theme', next); } catch {}
     setTheme(next);
-  }}>{theme === 'dark' ? <Sun size={19}/> : <Moon size={19}/>}<span>{theme === 'dark' ? '日间' : '夜间'}</span></button>;
+  }}><span className="theme-toggle-content theme-toggle-day" aria-hidden="true"><Sun size={20}/><span>日间</span></span><span className="theme-toggle-content theme-toggle-night" aria-hidden="true"><Moon size={20}/><span>夜间</span></span></button>;
 }

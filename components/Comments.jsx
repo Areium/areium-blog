@@ -14,12 +14,14 @@ export default function Comments({ slug }) {
   const [showEmojis, setShowEmojis] = useState(false);
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState('');
+  const [replyTo, setReplyTo] = useState(null);
   const textarea = useRef(null);
   const fileInput = useRef(null);
 
   useEffect(() => {
     let active = true;
     setComments([]);
+    setReplyTo(null);
     setText('');
     setFile(null);
     setMessage('');
@@ -77,11 +79,13 @@ export default function Comments({ slug }) {
       const data = new FormData();
       data.set('slug', slug);
       data.set('body', text);
+      if (replyTo) data.set('reply_to_id', String(replyTo.id));
       if (file) data.set('image', file);
       const response = await fetch('/api/comments', { method: 'POST', body: data });
       const result = await response.json().catch(() => { throw Error('上传失败，请稍后重试。'); });
       if (!response.ok) throw Error(result.error);
-      setComments(previous => [result.comment, ...previous].slice(0, 100));
+      setComments(previous => [result.comment, ...previous]);
+      setReplyTo(null);
       setText('');
       setFile(null);
       setShowEmojis(false);
@@ -98,11 +102,33 @@ export default function Comments({ slug }) {
       const response = await fetch('/api/auth/logout', { method: 'POST' });
       if (!response.ok) throw Error();
       setSession({ ...session, user: null });
+      setReplyTo(null);
       setText('');
       setFile(null);
     } catch {
       setMessage('退出失败，请稍后重试。');
     }
+  }
+
+  function beginReply(comment) {
+    setReplyTo(comment);
+    setMessage('');
+    textarea.current.focus();
+    textarea.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function renderComment(comment) {
+    return <div className="comment" id={`comment-${comment.id}`} key={comment.id}>
+      <a href={`https://github.com/${encodeURIComponent(comment.login)}`} target="_blank" rel="noreferrer"><b>{comment.name}</b><span>@{comment.login}</span></a>
+      <time>{comment.created_at.slice(0, 10)}</time>
+      {comment.reply_to_id && <div className="comment-reply-label">
+        {comment.reply_to_login ? <span>回复 @{comment.reply_to_login}</span> : <span>回复了一条已隐藏的评论</span>}
+      </div>}
+      {comment.body && <p>{comment.body}</p>}
+      {comment.image_url && <a className="comment-image-link" href={comment.image_url} target="_blank" rel="noreferrer" aria-label="查看评论图片"><img src={comment.image_url} alt={`${comment.name} 分享的图片`} loading="lazy"/></a>}
+      {session?.user ? <button className="comment-reply-button" type="button" disabled={busy} onClick={() => beginReply(comment)} aria-label={`回复 ${comment.name}`}>回复</button>
+        : session?.configured && <a className="comment-reply-button" href={`/api/auth/github?next=/blog/${slug}`}>登录后回复</a>}
+    </div>;
   }
 
   return <section className="comments" id="comments">
@@ -113,6 +139,10 @@ export default function Comments({ slug }) {
         <span><Github size={16}/> {session.user.name} <small>@{session.user.login}</small></span>
         <button type="button" disabled={busy} onClick={logout}>退出登录</button>
       </div>
+      {replyTo && <div className="comment-reply-target">
+        <div><b>回复 @{replyTo.login}</b><p>{replyTo.body.slice(0, 100) || '图片评论'}</p></div>
+        <button type="button" disabled={busy} onClick={() => setReplyTo(null)}><X size={16}/> 取消回复</button>
+      </div>}
       <textarea ref={textarea} aria-label="评论内容" disabled={busy} maxLength={2000} value={text} onChange={e => setText(e.target.value)} placeholder="有什么想法？写下文字、选择表情或分享一张图片…"/>
       <div className="comment-tools">
         <button type="button" disabled={busy} aria-expanded={showEmojis} onClick={() => setShowEmojis(!showEmojis)}><Smile size={18}/> 表情</button>
@@ -128,17 +158,17 @@ export default function Comments({ slug }) {
         <button type="button" disabled={busy} onClick={() => setFile(null)} aria-label="移除图片"><X size={18}/> 移除</button>
         <span>{file?.name}</span>
       </div>}
-      <button className="button primary" disabled={busy || (!text.trim() && !file)}>{busy ? '发布中…' : '发表评论'}</button>
+      <button className="button primary" disabled={busy || (!text.trim() && !file)}>{busy ? '发布中…' : replyTo ? '发表回复' : '发表评论'}</button>
     </form> : <div className="login-prompt">
       <Github size={26}/><div><b>用 GitHub 身份参与讨论</b><p>{session && !session.configured ? 'GitHub 登录尚未配置，配置后即可发表评论。' : '登录后即可发表评论，与你的 GitHub 身份关联。'}</p></div>
       {session?.configured ? <a className="button secondary" href={`/api/auth/github?next=/blog/${slug}`}>GitHub 登录 ↗</a> : <button className="button secondary" disabled>{session ? '等待配置' : '加载中…'}</button>}
     </div>}
     <p role="status" className="status">{message}</p>
-    <div>{comments.map(comment => <div className="comment" key={comment.id}>
-      <a href={`https://github.com/${encodeURIComponent(comment.login)}`} target="_blank" rel="noreferrer"><b>{comment.name}</b><span>@{comment.login}</span></a>
-      <time>{comment.created_at.slice(0, 10)}</time>
-      {comment.body && <p>{comment.body}</p>}
-      {comment.image_url && <a className="comment-image-link" href={comment.image_url} target="_blank" rel="noreferrer" aria-label="查看评论图片"><img src={comment.image_url} alt={`${comment.name} 分享的图片`} loading="lazy"/></a>}
+    <div>{comments.filter(comment => !comment.thread_id).map(root => <div className="comment-thread" key={root.id}>
+      {renderComment(root)}
+      <div className="comment-replies">
+        {comments.filter(comment => comment.thread_id === root.id).sort((a, b) => a.id - b.id).map(renderComment)}
+      </div>
     </div>)}
     {!comments.length && session && <p className="empty-comment">还没有公开评论，期待你的第一条想法。</p>}</div>
   </section>;
