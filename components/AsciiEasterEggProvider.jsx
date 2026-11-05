@@ -6,49 +6,70 @@ const AsciiContext = createContext(null);
 export function useAsciiEasterEgg() { return useContext(AsciiContext); }
 
 export default function AsciiEasterEggProvider({ children }) {
-  const [active, setActive] = useState(false);
+  const [phase, setPhase] = useState('off');
+  const [ready, setReady] = useState(false);
   const [message, setMessage] = useState('');
   const background = useRef(null);
+  const active = phase === 'active';
+  const mounted = phase !== 'off';
 
   useEffect(() => {
-    if (!active) return;
+    if (phase !== 'closing') return;
+    const delay = ready && !window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 700 : 0;
+    const timer = window.setTimeout(() => setPhase('off'), delay);
+    return () => window.clearTimeout(timer);
+  }, [phase, ready]);
+
+  useEffect(() => {
+    if (!ready || phase === 'off') {
+      delete document.documentElement.dataset.asciiEgg;
+      return;
+    }
+    // Resolve the initial transparent style before starting the crossfade.
+    background.current?.getBoundingClientRect();
+    document.documentElement.dataset.asciiEgg = phase === 'active' ? 'true' : 'closing';
+  }, [phase, ready]);
+
+  useEffect(() => {
+    if (!mounted) return;
     const controller = new AbortController();
     let dispose;
-    const close = event => { if (event.key === 'Escape') setActive(false); };
+    const close = event => { if (event.key === 'Escape') setPhase('closing'); };
     window.addEventListener('keydown', close);
     import('../lib/ascii-scene').then(({ createAsciiScene }) =>
       createAsciiScene(background.current, controller.signal, () => {
-        setActive(false);
+        setPhase('off');
         setMessage('3D 场景已暂停，可以返回首页再次点击角色头部重试。');
       })
     ).then(cleanup => {
       if (controller.signal.aborted) cleanup();
       else {
         dispose = cleanup;
-        document.documentElement.dataset.asciiEgg = 'true';
+        setReady(true);
       }
     }).catch(() => {
       if (!controller.signal.aborted) {
-        setActive(false);
+        setPhase('off');
         setMessage('当前浏览器暂时无法启用 3D 彩蛋。');
       }
     });
     return () => {
       controller.abort();
       dispose?.();
+      setReady(false);
       window.removeEventListener('keydown', close);
       delete document.documentElement.dataset.asciiEgg;
     };
-  }, [active]);
+  }, [mounted]);
 
   function toggle() {
     setMessage('');
-    setActive(current => !current);
+    setPhase(current => current === 'active' ? 'closing' : 'active');
   }
 
   return <AsciiContext.Provider value={{ active, toggle }}>
     {children}
-    {active && createPortal(<>
+    {mounted && createPortal(<>
       <div className="ascii-background" ref={background} aria-hidden="true"/>
       <p className="ascii-hint">拖动空白处转动视角 · 触碰字符让它散开 · Esc 退出</p>
     </>, document.body)}
