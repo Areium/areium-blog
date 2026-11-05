@@ -1,4 +1,4 @@
-.page-jump{position:fixed;right:max(24px,calc((100vw - 1104px)/2 + 120px),env(safe-area-inset-right));bottom:calc(40px + env(safe-area-inset-bottom));z-index:30;display:flex;flex-direction:column;gap:6px}
+.page-jump{position:fixed;right:max(16px,calc((100vw - 1160px)/2 - 62px),env(safe-area-inset-right));bottom:calc(40px + env(safe-area-inset-bottom));z-index:30;display:flex;flex-direction:column;gap:6px}
 .page-jump button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:46px;min-height:50px;padding:7px;border:1px solid var(--line);border-radius:9px;background:var(--card);color:var(--ink);box-shadow:0 3px 14px #00000012;cursor:pointer}
 .page-jump button span{font-size:10px;line-height:1.3}
 .page-jump button:hover{background:var(--panel);color:var(--green)}
@@ -46,3 +46,7 @@ html[data-theme=dark] .nav-indicator::before{background:linear-gradient(110deg,t
 .reading-sidebar{position:sticky;top:35px;align-self:start;min-width:0}
 .reading-sidebar .toc{position:static;max-height:calc(100vh - 70px);overflow:auto}
 @media(max-width:650px){.reading-sidebar{display:none}}
+/* A dedicated outer rail prevents shortcuts from covering content at any scroll position. */
+@media(max-width:1320px){.page-content{margin-right:72px}.page-jump{right:max(13px,env(safe-area-inset-right))}}
+@media(max-width:650px){.page-content{margin-right:60px}.page-content .shell{padding-left:16px;padding-right:16px}.page-jump{right:max(8px,env(safe-area-inset-right))}.page-content .footer{padding-right:16px}.page-content .footer-links{white-space:normal;flex-wrap:wrap}.page-content .about-identity{gap:16px;flex-wrap:wrap}}
+@media print{.page-content{margin-right:0}}
