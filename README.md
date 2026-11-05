@@ -39,9 +39,9 @@
 
 正文对应 `content/my-new-post.md`，封面对应 `public/covers/my-new-post.jpg`。当前通过本地文件维护标签，没有新增网页管理后台。已移除的示例 Markdown 仍留作写作格式参考，不会出现在网站或文章接口中。
 
-本地优先的中文技术博客，基于 Next.js App Router / React / Node.js 24。包括响应式首页、Markdown 文章、目录和代码高亮、分类搜索、作品集、JSON 工具、专注时钟、GitHub OAuth 登录和 SQLite 审核式评论。
+本地优先的中文技术博客，基于 Next.js App Router / React / Node.js 24。包括响应式首页、Markdown 文章、目录和代码高亮、分类搜索、作品集、JSON 工具、专注时钟、GitHub OAuth 登录和 SQLite 评论。
 
-本站尚未接入 Payload 或可视化文章后台。文章通过 Markdown / HTML 文件维护，元数据通过 JSON 维护，评论通过命令行审核。历史作品演示页面仍保留，但不再出现在首页和主导航中。没有上传到云服务器或远程仓库。
+本站尚未接入 Payload 或可视化文章后台。文章通过 Markdown / HTML 文件维护，元数据通过 JSON 维护，评论发布后可通过命令行隐藏。历史作品演示页面仍保留，但不再出现在首页和主导航中。没有上传到云服务器或远程仓库。
 
 ## 本地运行
 
@@ -113,7 +113,9 @@ GitHub OAuth 的真实往返需要应用凭据及用户授权，未配置时无�
 
 ## 评论管理
 
-评论保存在 `data/comments.sqlite`，默认待审核，同一 GitHub 用户一分钟内只能提交一次。只公开最近 100 条已审核评论。首次运行会自动建表，不预置虚假评论。
+评论保存在 `data/comments.sqlite`，新评论提交后立即公开，同一 GitHub 用户一分钟内只能提交一次。每篇文章公开最近 100 条可见评论。首次运行会自动建表。
+
+`list` 查看旧的待审核评论，`approve` 公开指定评论，`reject` 隐藏指定评论。
 
 ```sh
 pnpm comments list
@@ -169,9 +171,9 @@ Git 远程仓库为 `https://github.com/Areium/areium-blog.git`，主分支为 `
 
 不需要启用 Device Flow，也不需要仓库权限。创建后复制 Client ID 并生成 Client Secret。通过自己的 SSH 终端执行 `vi /etc/areium-blog.env`，填写 `GITHUB_CLIENT_ID` 和 `GITHUB_CLIENT_SECRET`。保留已有 `AUTH_SECRET`、`SITE_URL` 和 `BLOG_DATA_DIR`，不要把密钥提交至 Git 或发到聊天中。
 
-执行 `systemctl restart areium-blog` 后，访问 `/api/auth/session` 应返回 `configured: true`。在文章底部点击 GitHub 登录，授权后返回文章并提交评论；评论默认为待审核，不会立即公开。此配置检查不代替实际登录流程验证。
+执行 `systemctl restart areium-blog` 后，访问 `/api/auth/session` 应返回 `configured: true`。在文章底部点击 GitHub 登录，授权后返回文章并提交评论；新评论提交后立即公开。此配置检查不代替实际登录流程验证。
 
-审核评论不需要读取 OAuth 密钥：
+查看旧的待审核评论和公开指定评论的命令如下。也可用 `reject ID` 隐藏指定评论。
 
 ```sh
 cd /www/wwwroot/areium-blog
