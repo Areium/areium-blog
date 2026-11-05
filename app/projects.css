@@ -1,0 +1,18 @@
+html[data-theme=dark] .project-card{background:var(--card);border-color:var(--line);box-shadow:0 8px 28px #0000000c}
+html[data-theme=dark] .project-card:hover{border-color:#47638a;box-shadow:0 12px 30px #0003}
+html[data-theme=dark] .project-art.json{background:radial-gradient(ellipse at 70% 20%,#31547b55,transparent 70%),#172a41}
+html[data-theme=dark] .project-art.clock{background:radial-gradient(ellipse at 30% 10%,#487c8740,transparent 70%),#14273b}
+html[data-theme=dark] .project-art.blog{background:radial-gradient(ellipse at 70% 20%,#7772aa33,transparent 70%),#1b2847}
+html[data-theme=dark] .code-art{background:#111e31;border-color:#3a526f;box-shadow:0 8px 24px #0003}
+html[data-theme=dark] .code-art pre{color:#afc0d9}html[data-theme=dark] .code-art i{color:#d7b996}html[data-theme=dark] .code-art em{color:#a9c9f1}html[data-theme=dark] .art-icon{color:#92b9eb33}
+html[data-theme=dark] .project-art .window-dots{color:#6884a9}
+html[data-theme=dark] .clock-face{background:#162b40;border-color:#426078;outline-color:#304960}
+html[data-theme=dark] .clock-face strong{color:#cee5f5}html[data-theme=dark] .clock-face small{color:#a4bdcf}html[data-theme=dark] .clock-face span{color:#83abc2}
+html[data-theme=dark] .blog-art{color:#bdc9ef}
+html[data-theme=dark] .project-title svg{color:#91bdf7}html[data-theme=dark] .project-info p{color:#a3b1c7}
+html[data-theme=dark] .project-info .tags span{background:var(--tag-bg);border-color:var(--tag-border);color:var(--tag-text)}
+html[data-theme=dark] .demo-panel{background:var(--card);border-color:var(--line)}
+html[data-theme=dark] .demo-panel>p{color:#afc0d9}
+html[data-theme=dark] .json-input{background:#0d192b;color:#d5e5f9;border-color:#3a5276;caret-color:#91bdf7}
+html[data-theme=dark] .json-input:focus{outline-color:#91bdf7}
+html[data-theme=dark] .timer>div{color:#c7dfff}

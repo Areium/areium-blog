@@ -1,0 +1,3 @@
+User-selected image: https://wallhaven.cc/w/yqkyyx
+Original: https://w.wallhaven.cc/full/yq/wallhaven-yqkyyx.jpg
+The original image is kept intact. The homepage displays it using CSS clipping.

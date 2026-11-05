@@ -1,4 +1,5 @@
 import { Github, Mail } from 'lucide-react';
+import Image from 'next/image';
 import profile from '../../content/profile.json';
 import interests from '../../content/interests.json';
 export const metadata = { title: '关于 Areium' };
@@ -13,7 +14,7 @@ export default function About() {
     </section>
     <section className="interest-section" aria-labelledby="anime-heading">
       <div className="interest-heading"><span className="eyebrow">STORIES I LOVE</span><h2 id="anime-heading">喜欢的动漫</h2></div>
-      <div className="anime-grid">{interests.anime.map(anime => <figure className="anime-card" key={anime.name}><img src={anime.image} alt={`${anime.name} 动漫封面`} width="225" height="320" loading="lazy"/><figcaption>{anime.name}</figcaption></figure>)}</div>
+      <div className="anime-grid">{interests.anime.map(anime => <figure className="anime-card" key={anime.name}><Image src={anime.image} alt={`${anime.name} 动漫封面`} width={225} height={320} sizes="(max-width: 650px) 45vw, 190px" loading="lazy"/><figcaption>{anime.name}</figcaption></figure>)}</div>
     </section>
     <div className="prose about-contact"><h2>找到我</h2><p><a href={profile.github} target="_blank" rel="noreferrer"><Github size={16}/> GitHub / Areium</a><br/><a href={'mailto:' + profile.email}><Mail size={16}/> {profile.email}</a></p></div>
   </div>;

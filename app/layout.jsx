@@ -5,12 +5,15 @@ import profile from '../content/profile.json';
 import ThemeToggle from '../components/ThemeToggle';
 import PageJump from '../components/PageJump';
 import MainNav from '../components/MainNav';
+import PageTransition from '../components/PageTransition';
 import './globals.css';
 import './redesign.css';
 import './theme.css';
 import './fonts.css';
 import './navigation.css';
 import './interests.css';
+import './projects.css';
+import './hero.css';
 
 export const metadata = { metadataBase: new URL(process.env.SITE_URL || 'http://localhost:3000'), title: { default: `${site.name} · 记录与探索`, template: `%s · ${site.name}` }, description: site.description };
 export default function Layout({ children }) {
@@ -19,5 +22,6 @@ export default function Layout({ children }) {
     <main>{children}</main>
     <footer className="shell footer"><div><b>{site.name}</b><p>保持好奇，持续记录。</p></div><span>© {new Date().getFullYear()} Areium · 用代码与文字记录生活</span><nav className="footer-links" aria-label="页脚导航"><Link href="/friends">友情链接</Link><Link href="/about">关于我 ↗</Link></nav></footer>
     <PageJump/>
+    <PageTransition/>
   </body></html>;
 }
