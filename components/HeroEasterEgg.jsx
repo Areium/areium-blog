@@ -5,7 +5,7 @@ import { useAsciiEasterEgg } from './AsciiEasterEggProvider';
 import { headBounds, HERO_SOURCE } from '../lib/ascii-character';
 
 export default function HeroEasterEgg() {
-  const { active, toggle } = useAsciiEasterEgg();
+  const { active, toggle, warmup } = useAsciiEasterEgg();
   const [bounds, setBounds] = useState(null);
   const figure = useRef(null);
   const image = useRef(null);
@@ -31,7 +31,7 @@ export default function HeroEasterEgg() {
     <figure className="hero-wallpaper" ref={figure}>
       <Image ref={image} className="hero-wallpaper-image" src={HERO_SOURCE} width={3360} height={1440} sizes="(max-width: 1160px) 100vw, 1104px" quality={95} preload alt="蓝色天空下舒展羽翼的少女"/>
     </figure>
-    {bounds && <button className="hero-head-trigger" style={bounds} type="button" aria-label={active ? '关闭 ASCII 角色彩蛋' : '开启 ASCII 角色彩蛋'} aria-pressed={active} onClick={toggle}/>}
+    {bounds && <button className="hero-head-trigger" style={bounds} type="button" aria-label={active ? '关闭 ASCII 角色彩蛋' : '开启 ASCII 角色彩蛋'} aria-pressed={active} onPointerEnter={warmup} onFocus={warmup} onClick={toggle}/>}
 
   </>;
 }
