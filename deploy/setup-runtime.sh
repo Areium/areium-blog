@@ -27,6 +27,8 @@ cd /www/wwwroot/areium-blog
 # published assets are also read at request time by the unprivileged service.
 chgrp -R areium-blog content public
 chmod -R g+rX content public
+chgrp areium-blog next.config.mjs package.json
+chmod g+r next.config.mjs package.json
 runuser -u areium-blog -- node --input-type=module -e '
   import fs from "node:fs";
   import path from "node:path";

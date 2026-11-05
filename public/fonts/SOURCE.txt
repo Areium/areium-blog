@@ -3,5 +3,9 @@ Copyright: OPPO Guangdong Mobile Communications Co., Ltd.
 Official information and usage terms: https://www.coloros.com/article/A00000050/
 Official download used: https://static01.coloros.com/www/public/img/topic7/font-opposans.zip
 
-The original font file is used unmodified for this site's typography.
+The original TTF is retained as the source. The website uses WOFF2 Unicode
+subsets generated with scripts/build-font-subsets.py (FontTools + Brotli).
+Subsets preserve the original glyph outlines, layout features and name records.
+All original Unicode characters remain covered, including characters not yet
+used in the site's articles. Hashed filenames allow immutable browser caching.
 Use the official OPPO website to obtain the font and review its usage terms.
