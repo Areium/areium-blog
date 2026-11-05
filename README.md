@@ -145,3 +145,58 @@ Git 远程仓库为 `https://github.com/Areium/areium-blog.git`，主分支为 `
 更新源码后重新安装锁定依赖、构建并重启进程。不要覆盖服务器的环境文件和数据目录。
 
 备份 SQLite 时先停止应用及评论管理进程，再备份整个数据目录（包括可能存在的 WAL 文件）；或使用 SQLite 在线备份工具创建一致性快照。恢复时同样先停止应用。
+
+## 本服务器部署配置
+
+服务器 `120.53.103.157` 使用独立端口 `8080` 提供博客，80 端口继续提供原 Cloudreve 网站。腾讯云控制台需要放行入站 TCP 8080。
+
+- 代码：`/www/wwwroot/areium-blog`，分支 `main`。
+- Node.js 24.22.2：`/opt/areium-blog/node/bin`，pnpm 11.25.0。
+- 进程：systemd `areium-blog.service`，以独立用户 `areium-blog` 运行，监听 `127.0.0.1:3000`。
+- Nginx：`/www/server/panel/vhost/nginx/areium-blog.conf`，监听 `8080`。
+- 运行环境：`/etc/areium-blog.env`（仅 root 可读，不入 Git）；systemd 会加载此文件，无需在代码目录另建 `.env.local`。
+- 评论数据：`/var/lib/areium-blog/comments.sqlite`。
+
+### GitHub 登录评论
+
+在 https://github.com/settings/applications/new 创建 OAuth App：
+
+| 字段 | 内容 |
+| --- | --- |
+| Application name | Areium Blog |
+| Homepage URL | http://120.53.103.157:8080/ |
+| Authorization callback URL | http://120.53.103.157:8080/api/auth/callback/github |
+
+不需要启用 Device Flow，也不需要仓库权限。创建后复制 Client ID 并生成 Client Secret。通过自己的 SSH 终端执行 `vi /etc/areium-blog.env`，填写 `GITHUB_CLIENT_ID` 和 `GITHUB_CLIENT_SECRET`。保留已有 `AUTH_SECRET`、`SITE_URL` 和 `BLOG_DATA_DIR`，不要把密钥提交至 Git 或发到聊天中。
+
+执行 `systemctl restart areium-blog` 后，访问 `/api/auth/session` 应返回 `configured: true`。在文章底部点击 GitHub 登录，授权后返回文章并提交评论；评论默认为待审核，不会立即公开。此配置检查不代替实际登录流程验证。
+
+审核评论不需要读取 OAuth 密钥：
+
+```sh
+cd /www/wwwroot/areium-blog
+runuser -u areium-blog -- env BLOG_DATA_DIR=/var/lib/areium-blog /opt/areium-blog/node/bin/node scripts/comments.mjs list
+runuser -u areium-blog -- env BLOG_DATA_DIR=/var/lib/areium-blog /opt/areium-blog/node/bin/node scripts/comments.mjs approve 1
+```
+
+域名与 HTTPS 配置好后，同时更新 `SITE_URL`、GitHub Homepage URL 和回调地址，再重启服务。当前 HTTP 地址适合临时验证，正式开放登录建议使用 HTTPS。
+
+### 查看状态与更新
+
+```sh
+systemctl status areium-blog --no-pager
+journalctl -u areium-blog -n 50 --no-pager
+```
+
+更新代码时先备份数据库，再执行：
+
+```sh
+cd /www/wwwroot/areium-blog
+git pull --ff-only origin main
+export PATH=/opt/areium-blog/node/bin:$PATH
+pnpm install --frozen-lockfile
+install -m 0644 deploy/areium-blog.service /opt/areium-blog/areium-blog.service
+bash deploy/setup-runtime.sh
+```
+
+部署脚本只在环境文件不存在时生成初始配置，不覆盖已填入的 GitHub 凭据。构建时会短暂影响原进程可用的构建文件，建议在低访问时段更新。

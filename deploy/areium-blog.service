@@ -1,0 +1,24 @@
+[Unit]
+Description=Areium personal blog
+After=network.target
+
+[Service]
+Type=simple
+User=areium-blog
+Group=areium-blog
+WorkingDirectory=/www/wwwroot/areium-blog
+Environment=NODE_ENV=production
+Environment=NEXT_TELEMETRY_DISABLED=1
+Environment=PATH=/opt/areium-blog/node/bin:/usr/local/bin:/usr/bin:/bin
+EnvironmentFile=/etc/areium-blog.env
+ExecStart=/opt/areium-blog/node/bin/node node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port 3000
+Restart=on-failure
+RestartSec=5
+UMask=0027
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=full
+
+[Install]
+WantedBy=multi-user.target
