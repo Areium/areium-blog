@@ -1,9 +1,9 @@
 .home-shell .areium-hero{position:relative;isolation:isolate;display:flex;align-items:center;min-height:460px;aspect-ratio:7/3;gap:0;padding:32px;margin:32px 0 40px;overflow:hidden;border-radius:16px}
 .hero-wallpaper{position:absolute;inset:0;margin:0;z-index:-2;overflow:hidden}
-.hero-wallpaper-image{display:block;width:100%;height:132%;object-fit:cover;object-position:center top}
+.hero-wallpaper-image{display:block;width:100%;height:124%;object-fit:cover;object-position:center top}
 .home-shell .areium-hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#faf9f6b8 0%,#faf9f699 24%,#faf9f64d 43%,#faf9f608 64%,transparent 80%);pointer-events:none}
 .home-shell .hero-copy{width:55%;max-width:560px;min-width:0}
 .home-shell .hero-copy>p{max-width:440px}
 html[data-theme=dark] .home-shell .areium-hero::after{background:linear-gradient(90deg,#0c1422b8 0%,#0c142299 24%,#0c14224d 43%,#0c142208 64%,transparent 80%)}
 @media(max-width:900px){.home-shell .areium-hero{padding:28px;min-height:430px}.home-shell .hero-copy{width:65%}}
-@media(max-width:650px){.home-shell .areium-hero{display:flex;flex-direction:column;align-items:stretch;aspect-ratio:auto;min-height:0;padding:0;margin:24px 0 32px;border:1px solid var(--line);background:var(--card)}.hero-wallpaper{position:relative;inset:auto;z-index:auto;aspect-ratio:28/9}.hero-wallpaper-image{position:absolute;inset:0;height:134%;object-fit:cover}.home-shell .areium-hero::after{display:none}.home-shell .hero-copy{width:100%;max-width:none;padding:26px 22px}.home-shell .hero-copy h1{font-size:30px}}
+@media(max-width:650px){.home-shell .areium-hero{display:flex;flex-direction:column;align-items:stretch;aspect-ratio:auto;min-height:0;padding:0;margin:24px 0 32px;border:1px solid var(--line);background:var(--card)}.hero-wallpaper{position:relative;inset:auto;z-index:auto;aspect-ratio:35/12}.hero-wallpaper-image{position:absolute;inset:0;height:124%;object-fit:cover}.home-shell .areium-hero::after{display:none}.home-shell .hero-copy{width:100%;max-width:none;padding:26px 22px}.home-shell .hero-copy h1{font-size:30px}}

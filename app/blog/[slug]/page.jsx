@@ -8,6 +8,7 @@ import Comments from '../../../components/Comments';
 import HtmlReport from '../../../components/HtmlReport';
 import { reportDocument } from '../../../lib/report-document';
 import referenceAnchors from '../../../lib/reference-anchors';
+import PageJump from '../../../components/PageJump';
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -36,6 +37,6 @@ export default async function Post({ params }) {
     </> : <div className="reading-layout"><div>
       <article className="prose"><Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight, referenceAnchors]} components={{ h2: ({ children }) => <h2 id={headingId(children)}>{children}</h2>, img: ({node, ...props}) => <img {...props} loading="lazy"/> }}>{post.content}</Markdown></article>
       <Comments slug={slug}/>
-    </div><aside className="toc"><span className="eyebrow">本文目录</span>{headings.map(heading => <a key={heading} href={'#' + headingId(heading)}>{heading}</a>)}<div className="toc-note">读到这里，有什么想法？<br/>欢迎在文末交流。</div></aside></div>}
+    </div><aside className="reading-sidebar"><div className="toc"><span className="eyebrow">本文目录</span>{headings.map(heading => <a key={heading} href={'#' + headingId(heading)}>{heading}</a>)}<div className="toc-note">读到这里，有什么想法？<br/>欢迎在文末交流。</div></div><PageJump article/></aside></div>}
   </div>;
 }
