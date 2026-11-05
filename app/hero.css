@@ -22,3 +22,5 @@ html[data-ascii-egg] .home-shell .areium-hero { background: transparent; }
 
 html[data-ascii-egg] .hero-copy { background: linear-gradient(90deg, color-mix(in srgb, var(--bg) 94%, transparent), color-mix(in srgb, var(--bg) 75%, transparent) 75%, transparent); border-radius: 12px; }
 @media(max-width:650px){html[data-ascii-egg] .hero-copy { background: color-mix(in srgb, var(--bg) 92%, transparent); }}
+
+.ascii-error { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 5; max-width: calc(100vw - 32px); padding: 10px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); color: var(--ink); font-size: 12px; }
