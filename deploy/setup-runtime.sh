@@ -9,7 +9,7 @@ if [[ ! -f /etc/areium-blog.env ]]; then
   (
   umask 077
   {
-    printf '%s\n' 'SITE_URL=http://120.53.103.157:8080' 'BLOG_DATA_DIR=/var/lib/areium-blog' 'GITHUB_CLIENT_ID=' 'GITHUB_CLIENT_SECRET='
+    printf '%s\n' 'SITE_URL=http://120.53.103.157:18080' 'BLOG_DATA_DIR=/var/lib/areium-blog' 'GITHUB_CLIENT_ID=' 'GITHUB_CLIENT_SECRET='
     printf 'AUTH_SECRET='
     openssl rand -hex 32
   } > /etc/areium-blog.env

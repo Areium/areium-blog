@@ -148,12 +148,12 @@ Git 远程仓库为 `https://github.com/Areium/areium-blog.git`，主分支为 `
 
 ## 本服务器部署配置
 
-服务器 `120.53.103.157` 使用独立端口 `8080` 提供博客，80 端口继续提供原 Cloudreve 网站。腾讯云控制台需要放行入站 TCP 8080。
+服务器 `120.53.103.157` 使用独立端口 `18080` 提供博客，80 端口继续提供原 Cloudreve 网站。腾讯云控制台需要放行入站 TCP 18080。
 
 - 代码：`/www/wwwroot/areium-blog`，分支 `main`。
 - Node.js 24.22.2：`/opt/areium-blog/node/bin`，pnpm 11.25.0。
 - 进程：systemd `areium-blog.service`，以独立用户 `areium-blog` 运行，监听 `127.0.0.1:3000`。
-- Nginx：`/www/server/panel/vhost/nginx/areium-blog.conf`，监听 `8080`。
+- Nginx：`/www/server/panel/vhost/nginx/areium-blog.conf`，监听 `18080`。
 - 运行环境：`/etc/areium-blog.env`（仅 root 可读，不入 Git）；systemd 会加载此文件，无需在代码目录另建 `.env.local`。
 - 评论数据：`/var/lib/areium-blog/comments.sqlite`。
 
@@ -164,8 +164,8 @@ Git 远程仓库为 `https://github.com/Areium/areium-blog.git`，主分支为 `
 | 字段 | 内容 |
 | --- | --- |
 | Application name | Areium Blog |
-| Homepage URL | http://120.53.103.157:8080/ |
-| Authorization callback URL | http://120.53.103.157:8080/api/auth/callback/github |
+| Homepage URL | http://120.53.103.157:18080/ |
+| Authorization callback URL | http://120.53.103.157:18080/api/auth/callback/github |
 
 不需要启用 Device Flow，也不需要仓库权限。创建后复制 Client ID 并生成 Client Secret。通过自己的 SSH 终端执行 `vi /etc/areium-blog.env`，填写 `GITHUB_CLIENT_ID` 和 `GITHUB_CLIENT_SECRET`。保留已有 `AUTH_SECRET`、`SITE_URL` 和 `BLOG_DATA_DIR`，不要把密钥提交至 Git 或发到聊天中。
 
