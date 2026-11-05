@@ -1,0 +1,7 @@
+import { NextResponse } from 'next/server';
+import { posts } from '../../../lib/content';
+import { listComments, addComment } from '../../../lib/db';
+import { getUser, sameOrigin } from '../../../lib/auth';
+export const runtime = 'nodejs';
+export async function GET(request) { const slug = request.nextUrl.searchParams.get('slug'); if (!posts.some(p => p.slug === slug)) return NextResponse.json({ error: '文章不存在' }, { status: 404 }); return NextResponse.json({ comments: listComments(slug) }, { headers: { 'Cache-Control': 'no-store' } }); }
+export async function POST(request) { if (!sameOrigin(request)) return NextResponse.json({ error: '来源无效' }, { status: 403 }); const user = getUser(request); if (!user) return NextResponse.json({ error: '请先使用 GitHub 登录。' }, { status: 401 }); try { const reader = request.body?.getReader(); if (!reader) return NextResponse.json({ error: '请求为空' }, { status: 400 }); let size = 0; const chunks = []; while (true) { const { value, done } = await reader.read(); if (done) break; size += value.length; if (size > 16384) { await reader.cancel(); return NextResponse.json({ error: '评论过长' }, { status: 413 }); } chunks.push(Buffer.from(value)); } const data = JSON.parse(Buffer.concat(chunks).toString('utf8')); if (!data || !posts.some(p => p.slug === data.slug)) return NextResponse.json({ error: '文章不存在' }, { status: 404 }); const result = addComment(data.slug, user, data.body); return NextResponse.json(result, { status: result.status || 201 }); } catch { return NextResponse.json({ error: '提交失败，请检查内容后重试。' }, { status: 400 }); } }

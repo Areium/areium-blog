@@ -1,0 +1,13 @@
+{
+  "games": [
+    { "name": "明日方舟", "english": "ARKNIGHTS", "mark": "01", "style": "arknights" },
+    { "name": "明日方舟：终末地", "english": "ARKNIGHTS: ENDFIELD", "mark": "02", "style": "endfield" },
+    { "name": "绝区零", "english": "ZENLESS ZONE ZERO", "mark": "03", "style": "zzz" }
+  ],
+  "anime": [
+    { "name": "CLANNAD", "image": "/images/anime/clannad.jpg" },
+    { "name": "进击的巨人", "image": "/images/anime/attack-on-titan.jpg" },
+    { "name": "赛博朋克：边缘行者", "image": "/images/anime/cyberpunk-edgerunners.jpg" },
+    { "name": "JOJO 的奇妙冒险", "image": "/images/anime/jojo.jpg" }
+  ]
+}

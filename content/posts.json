@@ -1,0 +1,70 @@
+[
+  {
+    "slug": "vllm-dynamic-classroom",
+    "title": "一个请求，一步步变成 token：vLLM 动态课堂",
+    "description": "七张递进框架图，跟随请求走过调度、执行、KV Cache 与 PD 分离。点击、单步和自动播放，把数据通路真正串起来。",
+    "category": "推理引擎",
+    "tags": [
+      "vLLM",
+      "交互课堂",
+      "KV Cache",
+      "推理引擎"
+    ],
+    "date": "2026-11-05",
+    "dateLabel": "收录于",
+    "minutes": 25,
+    "format": "html",
+    "cover": "/covers/vllm-classroom.svg"
+  },
+  {
+    "slug": "inside-vllm-zh",
+    "title": "深入 vLLM：高吞吐 LLM 推理系统的解剖",
+    "description": "从 Paged Attention、连续批处理和前缀缓存，到多 GPU、多节点服务。收录 Aleksa Gordic 原文的中文译稿，逐层理解 vLLM。",
+    "category": "好文搬运",
+    "tags": [
+      "好文搬运",
+      "vLLM",
+      "LLM",
+      "系统架构"
+    ],
+    "date": "2026-11-05",
+    "dateLabel": "收录于",
+    "minutes": 74,
+    "repost": true,
+    "author": "Aleksa Gordic",
+    "originalDate": "2025-09-05",
+    "sourceUrl": "https://vllm.ai/blog/2025-09-05-anatomy-of-vllm",
+    "cover": "/covers/inside-vllm.svg"
+  },
+  {
+    "slug": "ascend-nvidia-comparison",
+    "title": "昇腾 × NVIDIA：推理硬件与集群规格调研",
+    "description": "从 A2 到 A5，从 Hopper 到 Rubin。按代际、单卡与集群规模，比较算力、显存和带宽，附交互图表与集群计算器。",
+    "category": "技术调研",
+    "tags": [
+      "AI 基础设施",
+      "昇腾",
+      "NVIDIA",
+      "推理算力"
+    ],
+    "date": "2026-11-03",
+    "minutes": 20,
+    "featured": true,
+    "format": "html",
+    "cover": "/covers/ascend-nvidia.svg"
+  },
+  {
+    "slug": "bian-shuangsheng",
+    "title": "《彼岸双生》",
+    "description": "台风夜，程叙在家门口遇见了一个自称妮可的小女孩。一通熟悉的电话，让这个来历不明的访客走进了他的生活。",
+    "category": "文字创作",
+    "tags": [
+      "小说",
+      "科幻",
+      "彼岸双生"
+    ],
+    "date": "2026-09-07",
+    "minutes": 43,
+    "cover": "/covers/bian-shuangsheng.svg"
+  }
+]

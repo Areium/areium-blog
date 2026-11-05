@@ -1,0 +1,5 @@
+import { NextResponse } from 'next/server';
+import { randomBytes, createHash } from 'node:crypto';
+import { authReady, baseURL, sign, cookieOptions, STATE_COOKIE } from '../../../../lib/auth';
+export const runtime = 'nodejs';
+export async function GET(request) { if (!authReady()) return NextResponse.json({ error: 'GitHub 登录尚未配置，请先填写 .env.local。' }, { status: 503 }); const input = request.nextUrl.searchParams.get('next') || '/blog'; const next = /^\/blog\/[a-z0-9-]+$/.test(input) ? input : '/blog'; const state = randomBytes(24).toString('hex'); const verifier = randomBytes(32).toString('base64url'); const url = new URL('https://github.com/login/oauth/authorize'); url.search = new URLSearchParams({ client_id: process.env.GITHUB_CLIENT_ID, redirect_uri: `${baseURL()}/api/auth/callback/github`, state, scope: '', code_challenge: createHash('sha256').update(verifier).digest('base64url'), code_challenge_method: 'S256' }).toString(); const response = NextResponse.redirect(url); response.cookies.set(STATE_COOKIE, sign({ kind: 'oauth', state, verifier, next, exp: Date.now() + 600000 }), cookieOptions(600)); return response; }
