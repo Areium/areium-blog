@@ -1,5 +1,6 @@
 export default {
   poweredByHeader: false,
+  images: { qualities: [75, 95] },
   async headers() {
     return [{
       source: '/fonts/:path*',
