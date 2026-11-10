@@ -1,9 +1,3 @@
-这次在单机昇腾 A3 上部署 DeepSeek-V4.1-Flash，主要想回答两个问题：同样使用 16 个逻辑 NPU，DP4TP4 和 PP4TP4 的首 token 延迟有何差别？在固定评测设置下，模型的答题准确率如何？
-
-实验以 vllm-ascend [PR #19284](https://github.com/vllm-project/vllm-ascend/pull/19284) 的固定代码快照为基础，记录从环境准备、模型启动到性能与精度验证的过程，并补充 W8A8_DYNAMIC 的测试结果。
-
-**先看结论：** W4A8 在约 90% 前缀缓存命中的两个场景下，DP4TP4 的平均 TTFT 均低于 PP4TP4；W8A8_DYNAMIC 则在 16K 场景中由 PP 占优、128K 场景中由 DP 占优。并行拓扑的选择需要结合量化配置、输入长度与缓存场景。
-
 ## 实验目标与并行配置
 
 TTFT（Time to First Token）是从客户端发起请求到收到首个生成 token 的时间。本次性能测试只生成 1 个 token，重点观察首 token 延迟；精度测试另用 GSM8K 和 GPQA Diamond 的完整评测范围。
