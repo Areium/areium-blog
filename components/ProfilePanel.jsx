@@ -1,5 +1,6 @@
 import { Github, Mail, ArrowUpRight } from 'lucide-react';
 import profile from '../content/profile.json';
+import styles from './ProfilePanel.module.css';
 
 export default function ProfilePanel({ posts }) {
   const published = posts.filter(post => !post.example);
@@ -14,6 +15,7 @@ export default function ProfilePanel({ posts }) {
       <a href={`mailto:${profile.email}`}><Mail size={16}/><span>{profile.email}</span><ArrowUpRight size={13}/></a>
       <a href={profile.github} target="_blank" rel="noreferrer"><Github size={16}/><span>GitHub / Areium</span><ArrowUpRight size={13}/></a>
       <div className="profile-signature">Learn. Think. Share.</div>
+      <div className={styles.tags} aria-label="个人标签"><span>AI Infra</span></div>
     </div>
   </aside>;
 }

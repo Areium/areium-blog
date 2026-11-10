@@ -1,5 +1,21 @@
 [
   {
+    "slug": "ascend-a3-deepseek-deployment",
+    "title": "昇腾 A3 部署 DeepSeek-V4.1-Flash 的并行性能与精度验证",
+    "description": "从环境搭建、固定源码到模型启动，在 16 个逻辑 NPU 上比较 DP4TP4 与 PP4TP4 的首 token 延迟，并记录 W4A8、W8A8_DYNAMIC 的精度结果与复现条件。",
+    "category": "部署实践",
+    "tags": [
+      "AI Infra",
+      "昇腾",
+      "vLLM",
+      "DeepSeek",
+      "性能测试"
+    ],
+    "date": "2026-11-10",
+    "minutes": 22,
+    "cover": "/covers/ascend-a3-deployment.svg"
+  },
+  {
     "slug": "vllm-dynamic-classroom",
     "title": "从零开始学习vllm",
     "description": "七张递进框架图，跟随请求走过调度、执行、KV Cache 与 PD 分离。点击、单步和自动播放，把数据通路真正串起来。",

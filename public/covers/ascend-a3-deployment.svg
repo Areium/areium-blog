@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" fill="none">
+  <rect width="800" height="450" fill="#edf0e7"/>
+  <defs><pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" stroke="#8ca487" stroke-opacity=".12"/></pattern></defs>
+  <rect width="800" height="450" fill="url(#grid)"/>
+  <g font-family="Segoe UI,Microsoft YaHei,sans-serif">
+    <text x="42" y="47" font-size="12" letter-spacing="3" fill="#6f836e">AI INFRA / DEPLOYMENT NOTES</text>
+    <text x="42" y="110" font-size="32" font-weight="600" fill="#304a39">DeepSeek on Ascend A3</text>
+    <text x="42" y="142" font-size="15" fill="#6b806c">16 NPUs · W4A8 / W8A8 · TTFT &amp; Accuracy</text>
+    <g stroke="#91a88a" fill="#dce5d6">
+      <rect x="43" y="196" width="324" height="126" rx="12"/>
+      <rect x="433" y="196" width="324" height="126" rx="12"/>
+    </g>
+    <g fill="#536f4c" font-size="16" font-weight="600">
+      <text x="65" y="225">DP4 × TP4</text><text x="455" y="225">PP4 × TP4</text>
+    </g>
+    <g fill="#72916a">
+      <rect x="65" y="250" width="54" height="46" rx="5"/><rect x="140" y="250" width="54" height="46" rx="5"/><rect x="215" y="250" width="54" height="46" rx="5"/><rect x="290" y="250" width="54" height="46" rx="5"/>
+      <rect x="455" y="250" width="54" height="46" rx="5"/><rect x="530" y="250" width="54" height="46" rx="5"/><rect x="605" y="250" width="54" height="46" rx="5"/><rect x="680" y="250" width="54" height="46" rx="5"/>
+    </g>
+    <path d="M509 273h21m54 0h21m54 0h21" stroke="#536f4c" stroke-width="2"/>
+    <text x="400" y="266" text-anchor="middle" font-size="18" fill="#87947a">vs</text>
+    <text x="42" y="392" font-size="26" fill="#3f573f">部署实践 · 并行性能与精度验证</text>
+  </g>
+</svg>

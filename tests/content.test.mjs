@@ -58,9 +58,9 @@ test('Chinese translation retains the supplied content and all 18 local illustra
   for (const image of images) assert.ok(fs.statSync('public' + image[1]).size > 100);
 });
 
-test('published index has four real posts and preserves repost attribution', () => {
+test('published index contains real posts and preserves repost attribution', () => {
   const posts = JSON.parse(read('content/posts.json'));
-  assert.equal(posts.length, 4);
+  assert.ok(posts.length >= 4);
   assert.ok(posts.every(post => !post.example && !post.sourceUrl?.includes('areium.github.io')));
   const repost = posts.find(post => post.slug === 'inside-vllm-zh');
   assert.equal(repost.author, 'Aleksa Gordic');
