@@ -1,5 +1,22 @@
 [
   {
+    "slug": "vllm-source-reading",
+    "title": "vLLM V1 源码精读：从请求到 token",
+    "description": "跟随一次请求，串起输入处理、核心调度、KV Cache、模型执行、采样与输出。十个模块章节，114 段源码，结合逐步拆解理解推理引擎。",
+    "category": "源码精读",
+    "tags": [
+      "vLLM",
+      "AI Infra",
+      "源码解析",
+      "推理引擎"
+    ],
+    "date": "2026-11-11",
+    "minutes": 180,
+    "format": "html",
+    "standalone": true,
+    "cover": "/covers/vllm-source-reading.svg"
+  },
+  {
     "slug": "ascend-a3-deepseek-deployment",
     "title": "昇腾 A3 部署 DeepSeek-V4.1-Flash 的并行性能与精度验证",
     "description": "从环境搭建、固定源码到模型启动，在 16 个逻辑 NPU 上比较 DP4TP4 与 PP4TP4 的首 token 延迟，并记录 W4A8、W8A8_DYNAMIC 的精度结果与复现条件。",
