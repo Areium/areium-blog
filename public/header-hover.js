@@ -11,7 +11,6 @@ export function setupHeaderHover(header) {
   trigger.className = 'header-reveal';
   trigger.type = 'button';
   trigger.setAttribute('aria-label', '展开博客顶栏');
-  trigger.innerHTML = '<span aria-hidden="true">⌄</span>';
   document.body.append(trigger);
   let timer;
   let hovering = header.matches(':hover');
