@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { frameworkDiagram } from './vllm-framework.mjs';
 
 // Reimport the exported collection without modifying its source workspace.
 const source = process.argv[2];
@@ -30,6 +31,7 @@ for (const file of files) {
     .replaceAll('总目录与阅读约定', '总目录')
     .replaceAll('全部模块与阅读约定', '全部模块');
   if (file === 'index.html') {
+    h = h.replace(/<svg\b[^>]*aria-labelledby="(framework(?:-large)?)-title [^"]*"[\s\S]*?<\/svg>/g, (_, prefix) => frameworkDiagram(prefix));
     h = h.replace(/<div class="eyebrow">VLLM V1 \/ SOURCE READING COLLECTION<\/div>[\s\S]*?(?=<div class="meta">)/,
       `<div class="eyebrow">VLLM V1 · 源码精读</div><h1>跟随一次请求，读懂 vLLM<span>从输入处理到 token 输出，串起推理引擎的十个核心模块</span></h1><p class="intro">请求如何进入引擎？Scheduler 怎样决定下一轮计算，KV Cache 如何分配与复用，模型的输出又如何变成可见文本？这组源码笔记沿着请求的执行路径，结合<strong>源码片段、详细解析与逐步拆解</strong>，追踪模块之间的数据传递和关键状态变化。</p><div class="note"><strong>建议这样阅读：</strong>在 VS Code 中打开对应版本的 vLLM 源码，与本页对照阅读；沿函数定义和调用关系查看完整上下文。遇到不理解的代码，可以把相关片段、变量和具体疑问交给 AI 一起分析，再回到源码核对。有运行条件时，建议设置断点进行 Debug，观察变量的具体值、张量形状、调用栈以及请求状态如何变化。</div>`);
     h = h.replace('原教学网址本次此前连接失败，因此模块关系采用工作区配套教学页面与文档，未声称已核实线上内容完全一致。', '阅读时请切换到同一提交，避免版本差异影响理解。');
