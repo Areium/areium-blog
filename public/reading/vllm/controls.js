@@ -1,4 +1,5 @@
 (() => {
+  import('/header-hover.js').then(({ setupHeaderHover }) => setupHeaderHover(document.querySelector('.blog-header')));
   const root = document.documentElement;
   const button = document.getElementById('reading-theme');
   const media = matchMedia('(prefers-color-scheme: dark)');

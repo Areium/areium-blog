@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { setupHeaderHover } from '../public/header-hover';
 import { Home, BookOpen, Boxes, Link2, UserRound } from 'lucide-react';
 
 const items = [
@@ -15,6 +16,7 @@ const items = [
 
 export default function MainNav() {
   const pathname = usePathname();
+  useEffect(() => setupHeaderHover(document.querySelector('.header')), [pathname]);
   const [hovered, setHovered] = useState(null);
   const active = items.findIndex(({ href }) => href === '/' ? pathname === '/' : pathname === href || pathname?.startsWith(href + '/'));
 
