@@ -2,6 +2,11 @@
 export function setupHeaderHover(header) {
   if (!header) return () => {};
   const root = document.documentElement;
+  // Keep the home page, article index and other sections fully expanded.
+  if (!/^\/blog\/[^/]+/.test(window.location.pathname)) {
+    root.classList.remove('header-hidden');
+    return () => {};
+  }
   const trigger = document.createElement('button');
   trigger.className = 'header-reveal';
   trigger.type = 'button';
