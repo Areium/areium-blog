@@ -2,8 +2,8 @@
 .header{background:var(--bg)}
 .header-hidden :is(.header,.blog-header){transform:translateY(-100%);pointer-events:none}
 .header-reveal{position:fixed;top:0;left:50%;transform:translateX(-50%);z-index:45;width:64px;height:18px;display:grid;place-items:center;padding:0;border:1px solid var(--line);border-top:0;border-radius:0 0 9px 9px;background:var(--paper);color:var(--ink);font:18px/1 system-ui;cursor:pointer;opacity:0;visibility:hidden;transition:opacity .2s}
-.header-hidden .header-reveal{opacity:.8;visibility:visible}
-.header-reveal:hover,.header-reveal:focus-visible{opacity:1}
+.header-hidden .header-reveal{opacity:0;visibility:visible;background:transparent;border:0}
+.header-reveal:focus-visible{opacity:1;background:var(--paper)}
 .header-reveal:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
 @media(pointer:coarse){.header-reveal{width:72px;height:30px}}
 @media(prefers-reduced-motion:reduce){.header,.blog-header,.header-reveal{transition:none}}
