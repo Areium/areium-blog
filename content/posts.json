@@ -1,5 +1,22 @@
 [
   {
+    "slug": "vllm-communication",
+    "title": "vLLM 通信原理：动画与源码对照",
+    "description": "通过 Gather、Scatter、AllGather 等九种通信原语的交互动画，对照 vLLM 与 vLLM-Ascend 源码，理解多卡推理中的拼接、归约与数据重排。",
+    "category": "推理引擎",
+    "tags": [
+      "vLLM",
+      "vLLM-Ascend",
+      "分布式通信",
+      "源码解析"
+    ],
+    "date": "2026-11-17",
+    "minutes": 20,
+    "format": "html",
+    "standalone": true,
+    "cover": "/covers/vllm-communication.svg"
+  },
+  {
     "slug": "vllm-source-reading",
     "title": "vLLM V1 源码精读：从请求到 token",
     "description": "跟随一次请求，串起输入处理、核心调度、KV Cache、模型执行、采样与输出。十个模块章节，114 段源码，结合逐步拆解理解推理引擎。",

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+<rect width="1200" height="760" fill="#eaf0ee"/><path d="M130 310H1070M130 390H1070M130 470H1070" stroke="#d4dfda"/>
+<text x="90" y="135" font-family="Arial,sans-serif" font-size="27" letter-spacing="5" fill="#426658">VLLM / COMMUNICATION</text>
+<text x="90" y="223" font-family="Arial,sans-serif" font-size="60" font-weight="700" fill="#1b3d34">Gather. Reduce. Exchange.</text>
+<g fill="none" stroke="#398b78" stroke-width="5"><path d="M220 370C220 480 480 420 480 530"/><path d="M480 370C480 480 740 420 740 530"/><path d="M740 370C740 480 1000 420 1000 530"/><path d="M1000 370C1000 680 220 680 220 530"/></g>
+<g fill="#fff" stroke="#bfd1c8" stroke-width="2"><rect x="130" y="290" width="180" height="80" rx="13"/><rect x="390" y="290" width="180" height="80" rx="13"/><rect x="650" y="290" width="180" height="80" rx="13"/><rect x="910" y="290" width="180" height="80" rx="13"/><rect x="130" y="530" width="180" height="80" rx="13"/><rect x="390" y="530" width="180" height="80" rx="13"/><rect x="650" y="530" width="180" height="80" rx="13"/><rect x="910" y="530" width="180" height="80" rx="13"/></g>
+<g font-family="Arial,sans-serif" font-size="27" text-anchor="middle" fill="#244c40"><text x="220" y="340">RANK 0</text><text x="480" y="340">RANK 1</text><text x="740" y="340">RANK 2</text><text x="1000" y="340">RANK 3</text><text x="220" y="580">D</text><text x="480" y="580">A</text><text x="740" y="580">B</text><text x="1000" y="580">C</text></g>
+<text x="90" y="700" font-family="Arial,sans-serif" font-size="22" fill="#426658">9 OPERATIONS · ANIMATION + SOURCE</text></svg>
