@@ -27,9 +27,30 @@ html=html.replace(/#([\da-f]{8}|[\da-f]{6})\b/gi,(full,key)=>palette[key.toLower
 const dark=Object.keys(palette).map(k=>`--c-${k}:#${k}`).join(';');
 const light=Object.entries(palette).map(([k,v])=>`--c-${k}:#${v}`).join(';');
 const themeInit=fs.readFileSync('public/reading/vllm/theme.js','utf8');
+const fontFaces=fs.readFileSync('app/font-faces.css','utf8');
+const globals=fs.readFileSync('app/globals.css','utf8');
+const blogTheme=fs.readFileSync('app/theme.css','utf8');
+const blogLight=(globals.match(/:root\{([^}]+)\}/)[1]+';'+blogTheme.match(/:root\{([^}]+)\}/)[1]).replaceAll('--','--blog-');
+const blogDark=blogTheme.match(/html\[data-theme=dark\]\{([^}]+)\}/)[1].replaceAll('--','--blog-');
+const neutralTokens={
+ 'bg':['0d1420','0f1927'],
+ 'card':['101925','101b2b','102c29','111c29','121c2a','121c2b','121d2a','172538'],
+ 'panel':['0a121d','0b101a','0b1420','0e1826','101a27','101c2c','141f2e','142131','152132','152232','162232','172536','1a2838','1a293a'],
+ 'line':['233044','243249','25364c','28364b','2a374a','34465b','35465e'],
+ 'ink':['e7eef9','c4d2e2','c5d4e5','c6d5e8'],
+ 'muted':['6b839e','7086a0','8295ae','8fa4be','90a5be','97abc3','9aacbf','9eafc7'],
+ 'subtle':['b4c5da','bbd0e4']
+};
+const neutralCSS=Object.entries(neutralTokens).flatMap(([token,colors])=>colors.map(c=>`--c-${c}:var(--blog-${token})`)).join(';');
 const themeCSS=`
 :root{${light};color-scheme:light}
 html[data-theme=dark]{${dark};color-scheme:dark}
+:root{${blogLight}}
+html[data-theme=dark]{${blogDark}}
+:root,:root[data-theme=dark]{${neutralCSS}}
+body{background:var(--blog-bg);color:var(--blog-ink);-webkit-font-smoothing:antialiased}
+body,button,input,select,textarea,svg text,.source-route{font-family:"OPPO Sans","Microsoft YaHei",system-ui,sans-serif}
+pre,code,.source-code,.pseudo pre,.formula,.file-info strong{font-family:Consolas,"Cascadia Code",monospace}
 .blog-header{height:80px;position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:24px;margin:0;padding:0 32px;background:#faf8f3;border-bottom:1px solid #e1ddd3;color:#282c29}
 .blog-header a{text-decoration:none;color:inherit}.blog-brand{display:flex;align-items:center;gap:12px;font-size:23px;font-weight:700;line-height:1.2;white-space:nowrap}.blog-brand small{display:block;font-size:9px;letter-spacing:1.7px;font-weight:400;margin-top:6px;color:#737870}
 .blog-header nav{display:flex;flex-direction:row;gap:4px;padding:4px;border:1px solid #e1ddd3;border-radius:12px;background:#f0eee7;overflow:visible}.blog-header nav a{padding:8px 20px;font-size:14px;border-radius:8px}.blog-header nav a:hover,.blog-header nav a[aria-current]{background:#fff;color:#a85822}
@@ -51,10 +72,10 @@ const controls=`(() => {
  media.addEventListener('change',sync);window.addEventListener('storage',sync);update();
  import('/header-hover.js').then(({setupHeaderHover})=>setupHeaderHover(document.querySelector('.blog-header'))).catch(()=>{});
 })();`;
-const title='vLLM 通信原理：动画与源码对照';
+const title='vLLM 通信原理';
 html=html.replace(/<title>.*?<\/title>/,`<title>${title} · Areium</title>`)
  .replace('<h1>看见 GPU 之间的数据流动</h1>',`<h1>${title}</h1>`)
- .replace('</head>',`<meta name="description" content="通过九种通信原语的交互动画，对照 vLLM 与 vLLM-Ascend 的真实源码，理解拼接、归约与数据重排。"><link rel="stylesheet" href="/header-hover.css"><style>${themeCSS}\n${brandCSS}</style><script>${themeInit}</script></head>`)
+ .replace('</head>',`<meta name="description" content="通过九种通信原语的交互动画，对照 vLLM 与 vLLM-Ascend 的真实源码，理解拼接、归约与数据重排。"><link rel="stylesheet" href="/header-hover.css"><style>${fontFaces}\n${themeCSS}\n${brandCSS}</style><script>${themeInit}</script></head>`)
  .replace('<body>','<body>'+header)
  .replace('</body>',`<script>${controls}</script></body>`)
  .replace(/[\t ]+$/gm,'');

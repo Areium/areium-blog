@@ -1,7 +1,7 @@
 [
   {
     "slug": "vllm-communication",
-    "title": "vLLM 通信原理：动画与源码对照",
+    "title": "vLLM 通信原理",
     "description": "通过 Gather、Scatter、AllGather 等九种通信原语的交互动画，对照 vLLM 与 vLLM-Ascend 源码，理解多卡推理中的拼接、归约与数据重排。",
     "category": "推理引擎",
     "tags": [
